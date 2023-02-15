@@ -11,9 +11,14 @@ namespace _19T1021205.DomainModels
         public int EmployeeID { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
         public string Photo { get; set; }
         public string Notes { get; set; }
         public string Email { get; set; }
+
+        public static implicit operator Employee(Employee v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
