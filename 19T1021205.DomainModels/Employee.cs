@@ -15,10 +15,5 @@ namespace _19T1021205.DomainModels
         public string Photo { get; set; }
         public string Notes { get; set; }
         public string Email { get; set; }
-
-        public static implicit operator Employee(Employee v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
