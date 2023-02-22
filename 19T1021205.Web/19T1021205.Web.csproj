@@ -134,6 +134,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CategorySearchOutput.cs" />
+    <Compile Include="Models\CustomerSearchOutput.cs" />
     <Compile Include="Models\PaginationSearchInput.cs" />
     <Compile Include="Models\PaginationSearchOutput.cs" />
     <Compile Include="Models\SupplierSearchOutput.cs" />
@@ -6518,6 +6519,7 @@
     <Content Include="Views\Employee\Delete.cshtml" />
     <Content Include="Views\Supplier\Search.cshtml" />
     <Content Include="Views\Category\Search.cshtml" />
+    <Content Include="Views\Customer\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -72,29 +72,65 @@ namespace _19T1021205.Web.Controllers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [ValidateAntiForgeryToken] // kiểm tra những cái k hợp lệ từ bên ngoài
+        [HttpPost] // chỉ nhận phương thức post
+        public ActionResult Save(Category data)
+        {
+            if (data.CategoryID == 0)
+                CommonDataService.AddCategory(data);
+            else
+                CommonDataService.UpdateCategory(data);
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public ActionResult Create()
         {
+            var data = new Category() { CategoryID = 0 };
+
             ViewBag.Title = "Bổ sung loại hàng";
-            return View("Edit");
+            return View("Edit", data);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Edit()
+        public ActionResult Edit(int id=0)
         {
+            if (id <= 0)
+                return RedirectToAction("Index");
+            var data = CommonDataService.GetCategory(id);
+            if (data == null)
+                return RedirectToAction("Index");
+
             ViewBag.Title = "Cập nhật loại hàng";
-            return View();
+            return View(data);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Delete()
+        public ActionResult Delete(int id=0)
         {
+            if (id <= 0)
+                return RedirectToAction("Index");
+            if (Request.HttpMethod == "POST")
+            {
+                CommonDataService.DeleteCategory(id);
+                return RedirectToAction("Index");
+            }
+            var data = CommonDataService.GetCategory(id);
+            if (data == null)
+                return RedirectToAction("Index");
+
             ViewBag.Title = "Xóa loại hàng";
-            return View();
+            return View(data);
         }
     }
 }
