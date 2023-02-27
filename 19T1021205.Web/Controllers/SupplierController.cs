@@ -9,6 +9,7 @@ using _19T1021205.DomainModels;
 
 namespace _19T1021205.Web.Controllers
 {
+    [Authorize]
     public class SupplierController : Controller
     {
         private const int PAGE_SIZE = 5;
@@ -116,7 +117,26 @@ namespace _19T1021205.Web.Controllers
         [HttpPost] // chỉ nhận phương thức post
         public ActionResult Save(Supplier data) // supplier data tương đương với int SupplierID, string SupplierName, ...
         {
-            if(data.SupplierID==0)
+            // Kiểm soát dữ liệu đầu vào
+            if (string.IsNullOrWhiteSpace(data.SupplierName))
+                ModelState.AddModelError(nameof(data.SupplierName), "Tên không được để trống"); /*ModelState chứa danh sách thông báo lỗi*/
+            if (string.IsNullOrWhiteSpace(data.ContactName))
+                ModelState.AddModelError(nameof(data.ContactName), "Tên giao dịch không được để trống");
+            if (string.IsNullOrWhiteSpace(data.Country))
+                ModelState.AddModelError(nameof(data.Country), "Vui lòng chọn quốc gia");
+
+            data.Address = data.Address ?? "";
+            data.Phone = data.Phone ?? "";
+            data.City = data.City ?? "";
+            data.PostalCode = data.PostalCode ?? "";
+
+            if (ModelState.IsValid == false) // Kiểm tra dữ liệu đầu vào có hợp lệ không
+            {
+                ViewBag.Title = data.SupplierID == 0 ? "Bổ sung nhà cung cấp" : "Cập nhật nhà cung cấp";
+                return View("Edit", data);
+            }
+
+            if (data.SupplierID==0)
             {
                 CommonDataService.AddSupplier(data);
             }

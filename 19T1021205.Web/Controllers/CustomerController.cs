@@ -8,6 +8,7 @@ using _19T1021205.DomainModels;
 
 namespace _19T1021205.Web.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         private const int PAGE_SIZE = 5;
@@ -69,32 +70,63 @@ namespace _19T1021205.Web.Controllers
             return View(result);
         }
 
+        [ValidateAntiForgeryToken] // kiểm tra những cái k hợp lệ từ bên ngoài
+        [HttpPost] // chỉ nhận phương thức post
+        public ActionResult Save(Customer data)
+        {
+            if (data.CustomerID == 0)
+                CommonDataService.AddCustomer(data);
+            else
+                CommonDataService.UpdateCustomer(data);
+
+            return RedirectToAction("Index");
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public ActionResult Create()
         {
+            var data = new Customer() { CustomerID = 0 };
+
             ViewBag.Title = "Bổ sung khách hàng";
-            return View("Edit");
+            return View("Edit", data);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Edit()
+        public ActionResult Edit(int id=0)
         {
+            if (id <= 0)
+                return RedirectToAction("Index");
+            var data = CommonDataService.GetCustomer(id);
+            if (data == null)
+                return RedirectToAction("Index");
+
             ViewBag.Title = "Cập nhật khách hàng";
-            return View();
+            return View(data);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Delete()
+        public ActionResult Delete(int id=0)
         {
+            if (id <= 0)
+                return RedirectToAction("Index");
+            if (Request.HttpMethod == "POST")
+            {
+                CommonDataService.DeleteCustomer(id);
+                return RedirectToAction("Index");
+            }
+            var data = CommonDataService.GetCustomer(id);
+            if (data == null)
+                return RedirectToAction("Index");
+
             ViewBag.Title = "Xóa khách hàng";
-            return View();
+            return View(data);
         }
     }
 }
