@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using _19T1021205.DataLayers;
 using _19T1021205.DomainModels;
 
-namespace _19T1021198.BusinessLayers
+namespace _19T1021205.BusinessLayers
 {
     /// <summary>
     /// Các chức năng tác nghiệp liên quan đến tài khoản
@@ -41,10 +41,5 @@ namespace _19T1021198.BusinessLayers
                 return customerAccountDB.ChangePassword(userName, oldPassword, newPassword);
         }
 
-    }
-
-    public class AccountTypes
-    {
-        public static AccountTypes Employee { get; internal set; }
     }
 }

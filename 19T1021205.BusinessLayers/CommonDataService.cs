@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using _19T1021205.DataLayers;
 using _19T1021205.DomainModels;
+using _19T1021205.BusinessLayers;
 using System.Configuration;
 
 
@@ -22,6 +23,7 @@ namespace _19T1021205.BusinessLayers
         private static ICommonDAL<Shipper> shipperDB;
         private static ICommonDAL<Employee> employeeDB;
         private static ICommonDAL<Category> categoryDB;
+        private static IProductDAL productDB;
 
         /// <summary>
         /// Ctor
@@ -235,7 +237,7 @@ namespace _19T1021205.BusinessLayers
         }
         #endregion
 
-        #region Mặt hàng
+        #region Loại hàng
 
         public static List<Category> ListOfCategories(int page, int pageSize, string searchValue, out int rowCount)
         {
@@ -266,6 +268,198 @@ namespace _19T1021205.BusinessLayers
         {
             return categoryDB.InUsed(categoryID);
         }
+        #endregion
+
+        #region Mặt hàng
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchValue"></param>
+        /// <param name="rowCount"></param>
+        /// <returns></returns>
+        public static List<Product> ListOfProducts(int page,
+                                                    int pageSize,
+                                                    string searchValue,
+                                                    out int rowCount)
+        {
+            rowCount = productDB.Count(searchValue);
+            return productDB.List(page, pageSize, searchValue).ToList();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchValue"></param>
+        /// <returns></returns>
+        public static List<Product> ListOfProduct(string searchValue = "")
+        {
+            return productDB.List(1, 0, searchValue).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        public static Product GetProduct(int productID)
+        {
+            return productDB.Get(productID);
+        }
+
+        /// <summary>
+        /// Bổ sung Người giao hàng, Hàm trả về mã của người giao hàng được bổ sung
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static int AddProduct(Product data)
+        {
+            return productDB.Add(data);
+        }
+
+        /// <summary>
+        /// Cập nhật Người giao hàng
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static bool UpdateProduct(Product data)
+        {
+            return productDB.Update(data);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static bool DeleteProduct(int data)
+        {
+            return productDB.Delete(data);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        public static bool InUsedProduct(int productID)
+        {
+            return productDB.InUsed(productID);
+        }
+
+        #endregion
+
+
+        #region Ảnh Mặt hàng
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchValue"></param>
+        /// <returns></returns>
+        public static List<ProductPhoto> ListPhotos(int productID)
+        {
+            return productDB.ListPhotos(productID).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="photoID"></param>
+        /// <returns></returns>
+        public static ProductPhoto GetPhoto(long photoID)
+        {
+            return productDB.GetPhoto(photoID);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static long AddPhoto(ProductPhoto data)
+        {
+            return productDB.AddPhoto(data);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static bool UpdatePhoto(ProductPhoto data)
+        {
+            return productDB.UpdatePhoto(data);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="photoID"></param>
+        /// <returns></returns>
+        public static bool DeletePhoto(long photoID)
+        {
+            return DeletePhoto(photoID);
+        }
+
+        #endregion
+
+
+        #region Thuộc tính Mặt hàng
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        public static IList<ProductAttribute> ListAttributes(int productID)
+        {
+            return productDB.ListAttributes(productID);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="attributeID"></param>
+        /// <returns></returns>
+        public static ProductAttribute GetAttribute(long attributeID)
+        {
+            return productDB.GetAttribute(attributeID);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static long AddAttribute(ProductAttribute data)
+        {
+            return productDB.AddAttribute(data);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static bool UpdateAttribute(ProductAttribute data)
+        {
+            return productDB.UpdateAttribute(data);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="attributeID"></param>
+        /// <returns></returns>
+        public static bool DeleteAttribute(long attributeID)
+        {
+            return productDB.DeleteAttribute(attributeID);
+        }
+
         #endregion
     }
 }
