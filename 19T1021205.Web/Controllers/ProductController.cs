@@ -23,11 +23,11 @@ namespace _19T1021205.Web.Controllers
         private const string PRODUCT_SEARCH = "ProductCondition";
         public ActionResult Index()
         {
-            Models.PaginationSearchInput condition = Session[PRODUCT_SEARCH] as Models.PaginationSearchInput;
+            Models.ProductSearchInput condition = Session[PRODUCT_SEARCH] as Models.ProductSearchInput;
 
             if (condition == null)
             {
-                condition = new Models.PaginationSearchInput()
+                condition = new Models.ProductSearchInput()
                 {
                     Page = 1,
                     PageSize = PAGE_SIZE,
@@ -38,12 +38,14 @@ namespace _19T1021205.Web.Controllers
             return View(condition);
         }
 
-        public ActionResult Search(Models.PaginationSearchInput condition)  // (int Page, int PageSize, string SearchValue)
+        public ActionResult Search(Models.ProductSearchInput condition)  // (int Page, int PageSize, string SearchValue)
         {
             int rowCount = 0;
-            var data = CommonDataService.ListOfProducts(condition.Page,
+            var data = ProductDataService.ListProducts(condition.Page,
                                                         condition.PageSize,
                                                         condition.SearchValue,
+                                                        condition.CategoryID,
+                                                        condition.SupplierID,
                                                         out rowCount);
             Models.ProductSearchOutput result = new Models.ProductSearchOutput()
             {
@@ -52,6 +54,8 @@ namespace _19T1021205.Web.Controllers
                 SearchValue = condition.SearchValue,
                 RowCount = rowCount,
                 Data = data,
+                CategoryID=condition.CategoryID,
+                SupplierID=condition.SupplierID
             };
 
             Session[PRODUCT_SEARCH] = condition;

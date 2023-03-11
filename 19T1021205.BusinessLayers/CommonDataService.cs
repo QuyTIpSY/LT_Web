@@ -9,14 +9,14 @@ using _19T1021205.BusinessLayers;
 using System.Configuration;
 
 
-namespace _19T1021205.BusinessLayers
+namespace _19T1021205.BusinessLayers 
 {
     /// <summary>
     /// Cung cấp các chức năng nghiệp vụ xử lý dữ liệu chung liên quan đến:
     /// Quốc gia, Nhà cung cấp, Khách hàng, Người giao hàng, Nhân viên, Loại hàng.
     /// </summary>
     public static class CommonDataService
-    {
+    { 
         private static ICountryDAL countryDB;
         private static ICommonDAL<Supplier> supplierDB;
         private static ICommonDAL<Customer> customerDB;
@@ -38,6 +38,7 @@ namespace _19T1021205.BusinessLayers
             shipperDB = new DataLayers.SQLServer.ShipperDAL(connectionString);
             employeeDB = new DataLayers.SQLServer.EmployeeDAL(connectionString);
             categoryDB = new DataLayers.SQLServer.CategoryDAL(connectionString);
+            productDB = new DataLayers.SQLServer.ProductDAL(connectionString);
         }
 
         #region Xử lý liên quan đến quốc gia
@@ -461,5 +462,7 @@ namespace _19T1021205.BusinessLayers
         }
 
         #endregion
+
+
     }
 }

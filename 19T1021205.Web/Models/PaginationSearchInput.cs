@@ -24,5 +24,6 @@ namespace _19T1021205.Web.Models
         /// Giá trị tim kiếm
         /// </summary>
         public string SearchValue { get; set; }
+
     }
 }
